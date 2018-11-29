@@ -53,7 +53,7 @@ public class BrandController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody Brand brand) {
 
-        if (brandDao.findByName(brand.getName().toLowerCase()) != null) {
+        if (brandDao.findByName(brand.getName().toLowerCase().trim()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 

@@ -43,7 +43,7 @@ public class SupplierController {
     @Autowired
     private ReportDao reportDao;
 
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @RequestMapping(value = "", method =  RequestMethod.GET)
     public ResponseEntity<?> getAll(final HttpServletRequest request) {
@@ -105,10 +105,10 @@ public class SupplierController {
         }
 
         Supplier supplier = new Supplier();
-        supplier.setName(supplierDto.getName());
+        supplier.setName(supplierDto.getName().trim());
         supplier.setCreatedOn(LocalDateTime.now());
-        supplier.setAddress(supplierDto.getAddress());
-        supplier.setEmail(supplierDto.getEmail());
+        supplier.setAddress(supplierDto.getAddress().trim());
+        supplier.setEmail(supplierDto.getEmail().trim());
         Supplier save = supplierDao.save(supplier);
         mailService.sendVerificationEmail(supplierDto.getEmail(), save.getId());
 

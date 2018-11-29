@@ -71,7 +71,7 @@ public class ProductController {
 
         Product product = new Product();
 
-        product.setName(productDto.getName());
+        product.setName(productDto.getName().trim());
         product.setBrand(brandDao.findOne(productDto.getBrandId()));
         product.setCreatedOn(LocalDateTime.now());
         productDao.save(product);
