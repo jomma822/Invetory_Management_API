@@ -1,9 +1,7 @@
 package com.inventorymanagement.model.db;
 
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 

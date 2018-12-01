@@ -1,7 +1,6 @@
 package com.inventorymanagement.model.ui;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class BrandDto {
 

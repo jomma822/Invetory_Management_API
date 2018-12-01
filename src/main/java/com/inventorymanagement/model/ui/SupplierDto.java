@@ -1,6 +1,5 @@
 package com.inventorymanagement.model.ui;
 
-import com.inventorymanagement.model.db.Supplier;
 
 import java.time.LocalDateTime;
 

@@ -4,19 +4,13 @@ import com.inventorymanagement.dao.BrandDao;
 import com.inventorymanagement.dao.ProductDao;
 import com.inventorymanagement.dao.SupplierDao;
 import com.inventorymanagement.dao.SupplierProductsDao;
-import com.inventorymanagement.model.db.Supplier;
 import com.inventorymanagement.model.ui.DashboardStatsDto;
-import com.inventorymanagement.model.ui.SupplierDto;
-import com.inventorymanagement.model.ui.SupplierProductDto;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

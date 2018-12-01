@@ -9,14 +9,12 @@ import com.inventorymanagement.model.db.Supplier;
 import com.inventorymanagement.model.db.SupplierProducts;
 import com.inventorymanagement.model.ui.*;
 import com.inventorymanagement.services.MailService;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.Response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;

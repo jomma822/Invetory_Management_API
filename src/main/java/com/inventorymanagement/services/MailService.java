@@ -13,7 +13,7 @@ public class MailService {
     public void sendEmail(String to, String productName) {
 
         String from = "jomma822@gmail.com";
-        String password = "";
+        String password = "Tejakr!23";
         String host = "localhost";//or IP address
 
         //Get the session object
@@ -50,7 +50,7 @@ public class MailService {
     public void sendVerificationEmail(String to, final int id) {
 
         String from = "jomma822@gmail.com";
-        String password = "";
+        String password = "Tejkar!23";
         String host = "localhost";//or IP address
 
         //Get the session object
