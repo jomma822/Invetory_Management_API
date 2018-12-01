@@ -13,10 +13,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true)
+
     private String name;
 
     private LocalDateTime createdOn;
+
+    @Column(unique = true)
+    private String sku;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "brand_id")
@@ -53,7 +56,17 @@ public class Product {
         return createdOn;
     }
 
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
+
+
     }
 }

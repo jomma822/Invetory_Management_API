@@ -14,6 +14,8 @@ public class ProductDto {
 
     private LocalDateTime createdOn;
 
+    private String sku;
+
     public ProductDto() {
 
     }
@@ -21,6 +23,7 @@ public class ProductDto {
     private ProductDto(Builder builder) {
         setId(builder.id);
         setName(builder.name);
+        setSku(builder.sku);
         setBrandId(builder.brandId);
         setBrandName(builder.brandName);
         setCreatedOn(builder.createdOn);
@@ -66,6 +69,14 @@ public class ProductDto {
         return createdOn;
     }
 
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
     public void setCreatedOn(LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
@@ -74,6 +85,7 @@ public class ProductDto {
         private int id;
         private String name;
         private int brandId;
+        private String sku;
         private String brandName;
         private LocalDateTime createdOn;
 
@@ -104,6 +116,12 @@ public class ProductDto {
             createdOn = val;
             return this;
         }
+
+        public Builder sku(String val) {
+            sku = val;
+            return this;
+        }
+
 
         public ProductDto build() {
             return new ProductDto(this);

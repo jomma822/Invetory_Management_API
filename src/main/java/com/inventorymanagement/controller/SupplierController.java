@@ -95,9 +95,12 @@ public class SupplierController {
                 .build();
     }
 
+
+    // add supplier here
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody final SupplierDto supplierDto) {
 
+        Supplier suppliername = supplierDao.findBySupplierName(supplierDto.getName().toLowerCase());
         if (supplierDao.findBySupplierName(supplierDto.getName().toLowerCase()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -125,6 +128,7 @@ public class SupplierController {
         return ResponseEntity.ok().build();
     }
 
+    // Add products to supplier
     @RequestMapping(value = "/{supplierId}/products", method = RequestMethod.POST)
     public ResponseEntity<?> addProduct(@RequestBody final SupplierProductDto supplierProductDto) {
 
@@ -138,6 +142,8 @@ public class SupplierController {
 
         return ResponseEntity.ok().build();
     }
+
+    // view Details --> get products by supplier Id
 
     @RequestMapping(value = "/{supplierId}/products", method = RequestMethod.GET)
     public ResponseEntity<?> getProducts(@PathVariable("supplierId") final String supplierId) {

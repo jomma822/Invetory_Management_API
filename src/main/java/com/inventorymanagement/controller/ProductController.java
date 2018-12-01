@@ -24,6 +24,7 @@ public class ProductController {
     @Autowired
     private ProductDao productDao;
 
+    // get all Products
     @RequestMapping(value = "", method =  RequestMethod.GET)
     public ResponseEntity<?> getAll() {
 
@@ -34,6 +35,7 @@ public class ProductController {
                         .name(product.getName())
                         .brandId(product.getBrand().getId())
                         .brandName(product.getBrand().getName())
+                        .sku(product.getSku())
                         .createdOn(product.getCreatedOn())
                         .build())
                 .collect(Collectors.toList());
@@ -59,21 +61,33 @@ public class ProductController {
 
         return ProductDto.newBuilder()
                 .brandId(product.getBrand().getId())
+                .sku(product.getSku())
+                .brandName(product.getBrand().getName())
                 .createdOn(product.getCreatedOn())
                 .id(product.getId())
                 .name(product.getName())
                 .build();
     }
 
+    // add product
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody ProductDto productDto) {
 
         Product product = new Product();
 
-        product.setName(productDto.getName().trim());
-        product.setBrand(brandDao.findOne(productDto.getBrandId()));
-        product.setCreatedOn(LocalDateTime.now());
-        productDao.save(product);
+        try {
+
+            product.setName(productDto.getName().trim());
+            product.setBrand(brandDao.findOne(productDto.getBrandId()));
+            product.setCreatedOn(LocalDateTime.now());
+            product.setSku(productDto.getSku().trim());
+            productDao.save(product);
+
+        } catch (Exception e) {
+            System.out.println("unable to save product");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
 
         return ResponseEntity.ok().build();
     }

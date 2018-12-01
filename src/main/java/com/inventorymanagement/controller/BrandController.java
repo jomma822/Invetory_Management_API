@@ -19,6 +19,7 @@ public class BrandController {
     @Autowired
     private BrandDao brandDao;
 
+    // get all Brands
     @RequestMapping(value = "", method =  RequestMethod.GET)
     public ResponseEntity<?> getAll() {
 
