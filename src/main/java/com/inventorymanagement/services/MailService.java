@@ -9,11 +9,14 @@ import java.util.Properties;
 
 @Service
 public class MailService {
-
+    
+    public static String fromEmail = "jomma822@gmail.com";
+    public static String emailPassword = "";
+    
     public void sendEmail(String to, String productName) {
 
-        String from = "jomma822@gmail.com";
-        String password = "Tejakr!23";
+        String from = fromEmail;
+        String password = emailPassword;
         String host = "localhost";//or IP address
 
         //Get the session object
@@ -49,8 +52,8 @@ public class MailService {
 
     public void sendVerificationEmail(String to, final int id) {
 
-        String from = "jomma822@gmail.com";
-        String password = "Tejkar!23";
+        String from = fromEmail;
+        String password = emailPassword;
         String host = "localhost";//or IP address
 
         //Get the session object
