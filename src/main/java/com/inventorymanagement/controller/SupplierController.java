@@ -99,21 +99,27 @@ public class SupplierController {
     // add supplier here
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody final SupplierDto supplierDto) {
+        try {
+            Supplier  supplierFromDB =  supplierDao.findBySupplierNameAndEmail(supplierDto.getName().toLowerCase(), supplierDto.getEmail().toLowerCase());
+            if ( supplierFromDB != null &&
+                    (supplierFromDB.getName().equalsIgnoreCase(supplierDto.getName())||
+                            supplierFromDB.getEmail().equalsIgnoreCase(supplierDto.getEmail()))) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
 
-        Supplier suppliername = supplierDao.findBySupplierName(supplierDto.getName().toLowerCase());
-        if (supplierDao.findBySupplierName(supplierDto.getName().toLowerCase()) != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            Supplier supplier = new Supplier();
+            supplier.setName(supplierDto.getName().trim());
+            supplier.setCreatedOn(LocalDateTime.now());
+            supplier.setAddress(supplierDto.getAddress().trim());
+            supplier.setEmail(supplierDto.getEmail().trim());
+            Supplier save = supplierDao.save(supplier);
+            mailService.sendVerificationEmail(supplierDto.getEmail(), save.getId());
+
+            return ResponseEntity.ok().build();
+
+            } catch (Exception e) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
-        Supplier supplier = new Supplier();
-        supplier.setName(supplierDto.getName().trim());
-        supplier.setCreatedOn(LocalDateTime.now());
-        supplier.setAddress(supplierDto.getAddress().trim());
-        supplier.setEmail(supplierDto.getEmail().trim());
-        Supplier save = supplierDao.save(supplier);
-        mailService.sendVerificationEmail(supplierDto.getEmail(), save.getId());
-
-        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
@@ -170,7 +176,12 @@ public class SupplierController {
                                             @RequestBody final SupplierProductDto supplierProductDto) {
 
         SupplierProducts supplierProducts = supplierProductsDao.findOne(Integer.parseInt(supplierProductId));
-        supplierProducts.setQuantity(supplierProductDto.getQuantity());
+        if (supplierProductDto.getQuantity() != 0) {
+            supplierProducts.setQuantity(supplierProductDto.getQuantity());
+        }
+        if (supplierProductDto.getPrice() != 0.0) {
+            supplierProducts.setPrice(supplierProductDto.getPrice());
+        }
         supplierProductsDao.save(supplierProducts);
 
         return ResponseEntity.ok().build();
@@ -200,12 +211,27 @@ public class SupplierController {
         if (updatedQuantity < 25) {
             Supplier supplier = supplierDao.findOne(Integer.parseInt(supplierId));
             mailService.sendEmail(supplier.getEmail(), one.getProduct().getName());
-            Report report = new Report();
-            report.setProductName(one.getProduct().getName());
-            report.setSupplierEmail(supplier.getEmail());
-            report.setQuantity(updatedQuantity);
-            report.setLocalDateTime(LocalDateTime.now());
-            reportDao.save(report);
+            Report report;
+
+            List<Report> getAllReports = reportDao.findAll()
+                    .stream()
+                    .filter(report1 -> report1.getSku().equalsIgnoreCase(productCheckoutDTO.getSku()) &&
+                    report1.getSupplierEmail().equalsIgnoreCase(productCheckoutDTO.getEmail()))
+                    .collect(Collectors.toList());
+
+            if (!getAllReports.isEmpty()) {
+                report = getAllReports.get(0);
+                report.setQuantity(updatedQuantity);
+                reportDao.save(report);
+            } else {
+                report = new Report();
+                report.setProductName(one.getProduct().getName());
+                report.setSupplierEmail(supplier.getEmail());
+                report.setQuantity(updatedQuantity);
+                report.setLocalDateTime(LocalDateTime.now());
+                report.setSku(productCheckoutDTO.getSku());
+                reportDao.save(report);
+            }
         }
 
         one.setQuantity(updatedQuantity);

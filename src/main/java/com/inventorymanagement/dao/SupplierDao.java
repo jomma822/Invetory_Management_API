@@ -9,6 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
 public interface SupplierDao extends JpaRepository<Supplier, Integer> {
-    @Query("select p from Supplier p where p.name= ?1")
-    Supplier findBySupplierName(final String supplierName);
+    @Query("select p from Supplier p where p.name= ? or p.email= ?")
+    Supplier findBySupplierNameAndEmail(final String supplierName, final String supplierEmail);
 }
