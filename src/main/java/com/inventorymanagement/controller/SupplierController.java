@@ -178,6 +178,17 @@ public class SupplierController {
         SupplierProducts supplierProducts = supplierProductsDao.findOne(Integer.parseInt(supplierProductId));
         if (supplierProductDto.getQuantity() != 0) {
             supplierProducts.setQuantity(supplierProductDto.getQuantity());
+            List<Report> getAllReports = reportDao.findAll()
+                    .stream()
+                    .filter(report1 -> report1.getSku().equalsIgnoreCase(supplierProducts.getProduct().getSku()))
+                    .collect(Collectors.toList());
+            Report report = new Report();
+            if (!getAllReports.isEmpty()) {
+                report = getAllReports.get(0);
+                report.setUpdatedQuantity(supplierProductDto.getQuantity());
+                reportDao.save(report);
+            }
+
         }
         if (supplierProductDto.getPrice() != 0.0) {
             supplierProducts.setPrice(supplierProductDto.getPrice());
@@ -222,6 +233,7 @@ public class SupplierController {
             if (!getAllReports.isEmpty()) {
                 report = getAllReports.get(0);
                 report.setQuantity(updatedQuantity);
+                report.setUpdatedQuantity(updatedQuantity);
                 reportDao.save(report);
             } else {
                 report = new Report();

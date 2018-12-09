@@ -21,6 +21,8 @@ public class Report {
 
     private LocalDateTime localDateTime;
 
+    private int UpdatedQuantity;
+
     public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
@@ -67,5 +69,13 @@ public class Report {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public int getUpdatedQuantity() {
+        return UpdatedQuantity;
+    }
+
+    public void setUpdatedQuantity(int updatedQuantity) {
+        UpdatedQuantity = updatedQuantity;
     }
 }
